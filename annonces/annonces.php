@@ -73,3 +73,31 @@ function shortcode_input_annonce() {
     }
     // créer un shortcode pour afficher et traiter le formulaire
     add_shortcode( 'saisie_annonce', 'shortcode_input_annonce' );
+
+
+    /**
+* Création de la table annonces
+*
+* @param none
+* @return none
+*/
+function annonces_create_table() {
+    global $wpdb;
+    $sql = "CREATE TABLE $wpdb->prefix"."annonces (
+        `id` smallint NOT NULL AUTO_INCREMENT,
+        `marque` varchar(25) NOT NULL,
+        `modele` varchar(25) NOT NULL,
+        `couleur` varchar(25) NOT NULL,
+        `annee_mec` smallint NOT NULL,
+        `kilometrage` varchar(25) NOT NULL,
+        `prix` varchar(25) NOT NULL,
+        `auteur` varchar(50) NOT NULL,
+        `date_creation` date NOT NULL,
+        PRIMARY KEY (`id`)
+      ) ".$wpdb->get_charset_collate();
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    dbDelta( $sql );
+    };
+
+
+    
