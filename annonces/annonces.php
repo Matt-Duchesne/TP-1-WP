@@ -25,7 +25,7 @@ function html_form_annonce() {
         <label>Couleur</label>
         <input type="text" name="couleur" placeholder="Entrez la couleur" required>
         <label>Annee de mise en circulation</label>
-        <input type="text" name="annee_mec" placeholder="Entrez l'annee de mise en circulation" required>
+        <input type="number" name="annee_mec" placeholder="Entrez l'annee de mise en circulation" required>
         <label>Kilometrage</label>
         <input type="text" name="kilometrage" placeholder="Entrez le kilometrage" required>
         <label>Prix</label>
@@ -75,7 +75,7 @@ function shortcode_input_annonce() {
     add_shortcode( 'saisie_annonce', 'shortcode_input_annonce' );
 
 
-    /**
+/**
 * Création de la table annonces
 *
 * @param none
@@ -85,6 +85,7 @@ function annonces_create_table() {
     global $wpdb;
     $sql = "CREATE TABLE $wpdb->prefix"."annonces (
         `id` smallint NOT NULL AUTO_INCREMENT,
+        `titre` varchar(150) NOT NULL,
         `marque` varchar(25) NOT NULL,
         `modele` varchar(25) NOT NULL,
         `couleur` varchar(25) NOT NULL,
@@ -98,6 +99,64 @@ function annonces_create_table() {
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta( $sql );
     };
+
+/**
+* Traitements à l'activation de l'extension
+*
+* @param none
+* @return none
+*/
+function annonces_activate() {
+    annonces_create_table();
+}
+
+register_activation_hook( __FILE__, 'annonces_activate' );
+
+/**
+* Suppression de la table recipes
+*
+* @param none
+* @return none
+*/
+
+function annonces_drop_table() {
+    global $wpdb;
+    $sql = "DROP TABLE $wpdb->prefix"."annonces";
+    $wpdb->query($sql);
+}
+  
+/**
+* Traitements à la désinstallation de l'extension
+*
+* @param none
+* @return none
+*/
+function annonces_uninstall() {
+    annonces_drop_table();
+}
+
+register_uninstall_hook(__FILE__, 'annonces_uninstall');
+
+/**
+*Création des pages de l'extension
+*
+* @param none
+* @return none
+*/
+// WORK IN PROGRESS !!!!!
+// function annonces_create_pages(){
+//     $annonces_page = array(
+//     'post_title' => "Saisie d'une recette",
+//     'post_name' => "saisie-recette",
+//     'post_content' => "[saisie_recette]",
+//     'post_type' => 'page',
+//     'post_status' => 'publish',
+//     'comment_status' => 'closed',
+//     'ping_status' => 'closed',
+//     'meta_input' => array('n41_recipes' => 'form')
+//     );
+//     wp_insert_post($n41_recipes_page);
+//     }
 
 
     
