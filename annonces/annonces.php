@@ -4,7 +4,7 @@ Plugin Name: Annonces auto
 Plugin URI: https://annonces-auto.plugins.com
 Description: Publication et gestion d'annonces auto
 Version: 1.0
-Author: Mathieu Duchesne
+Author: Mathieu Duchesne et Vincent LaPointe Lamy
 Author URI: https://annonces-auto.com
 */
 /**
@@ -144,9 +144,6 @@ register_uninstall_hook(__FILE__, 'annonces_uninstall');
 * @param none
 * @return none
 */
-
-
-// WORK IN PROGRESS !!!!!
 function annonces_create_pages(){
     $annonces_page = array(
     'post_title' => "Saisie d'une annonce",
@@ -160,4 +157,30 @@ function annonces_create_pages(){
     );
     wp_insert_post($annonces_page);
     }
+
+/**
+* Suppression des pages de l'extension
+*
+* @param none
+* @return none
+*/
+function annonces_delete_pages(){
+    global $wpdb;
+    $postmetas= $wpdb->get_results(
+                "SELECT * FROM $wpdb->postmeta WHERE meta_key= 'annonces'");
+    $force_delete= true;
+    foreach($postmetas as $postmeta) {
+        wp_delete_post( $postmeta->post_id, $force_delete);
+    }
+}
+/**
+* Traitements à la désactivation de l'extension
+*
+* @param none
+* @return none
+*/
+function annonces_deactivate() {
+    annonces_delete_pages();
+}
+register_deactivation_hook(__FILE__, 'annonces_deactivate');
 
