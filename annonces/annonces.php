@@ -108,6 +108,7 @@ function annonces_create_table() {
 */
 function annonces_activate() {
     annonces_create_table();
+    annonces_create_pages();
 }
 
 register_activation_hook( __FILE__, 'annonces_activate' );
@@ -143,20 +144,20 @@ register_uninstall_hook(__FILE__, 'annonces_uninstall');
 * @param none
 * @return none
 */
+
+
 // WORK IN PROGRESS !!!!!
-// function annonces_create_pages(){
-//     $annonces_page = array(
-//     'post_title' => "Saisie d'une recette",
-//     'post_name' => "saisie-recette",
-//     'post_content' => "[saisie_recette]",
-//     'post_type' => 'page',
-//     'post_status' => 'publish',
-//     'comment_status' => 'closed',
-//     'ping_status' => 'closed',
-//     'meta_input' => array('n41_recipes' => 'form')
-//     );
-//     wp_insert_post($n41_recipes_page);
-//     }
+function annonces_create_pages(){
+    $annonces_page = array(
+    'post_title' => "Saisie d'une annonce",
+    'post_name' => "saisie-annonce",
+    'post_content' => "[saisie_annonce]",
+    'post_type' => 'page',
+    'post_status' => 'publish',
+    'comment_status' => 'closed',
+    'ping_status' => 'closed',
+    'meta_input' => array('annonces' => 'form')
+    );
+    wp_insert_post($annonces_page);
+    }
 
-
-    
