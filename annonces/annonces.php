@@ -75,6 +75,43 @@ function shortcode_input_annonce() {
     add_shortcode( 'saisie_annonce', 'shortcode_input_annonce' );
 
 
+
+function html_afficher_annonces() {
+    global $wpdb;
+    $postmeta = $wpdb->get_row(
+        "SELECT * FROM $wpdb->postmeta WHERE meta_key = 'annonces' AND meta_value = 'form'");
+        $form_permalink = get_permalink($postmeta->post_id);    
+        ?>
+        <a href="<?= $form_permalink?>">Ajout d'une annonce</a>
+    <?php
+    $sql  = "SELECT * FROM $wpdb->prefix"."annonces";
+    $annonces = $wpdb->get_results($sql);
+    foreach ($annonces as $annonce){  
+    ?>
+        <p><?=$annonce->titre?></p>
+        <p>Marque: <?=$annonce->marque?></p>
+        <p><?=$annonce->modele?></p>
+        <p><?=$annonce->couleur?></p>
+        <p><?=$annonce->annee_mec?></p>
+        <p><?=$annonce->kilometrage?></p>
+        <p><?=$annonce->prix?></p>
+
+    <hr>
+    <?php
+    }    
+         
+}
+
+function shortcode_afficher_annonces() {
+    ob_start(); // temporisation dans un buffer (mémoire tampon) de l'envoi du code HTML
+    html_afficher_annonces();
+    return ob_get_clean(); // fin de la temporisation, retour du buffer au programme appelant
+    }
+    // créer un shortcode pour afficher et traiter le formulaire
+    add_shortcode( 'afficher_annonces', 'shortcode_afficher_annonces' );
+
+
+
 /**
 * Création de la table annonces
 *
@@ -146,17 +183,31 @@ register_uninstall_hook(__FILE__, 'annonces_uninstall');
 */
 function annonces_create_pages(){
     $annonces_page = array(
-    'post_title' => "Saisie d'une annonce",
-    'post_name' => "saisie-annonce",
-    'post_content' => "[saisie_annonce]",
-    'post_type' => 'page',
-    'post_status' => 'publish',
-    'comment_status' => 'closed',
-    'ping_status' => 'closed',
-    'meta_input' => array('annonces' => 'form')
+        'post_title' => "Saisie d'une annonce",
+        'post_name' => "saisie-annonce",
+        'post_content' => "[saisie_annonce]",
+        'post_type' => 'page',
+        'post_status' => 'publish',
+        'comment_status' => 'closed',
+        'ping_status' => 'closed',
+        'meta_input' => array('annonces' => 'form')
     );
     wp_insert_post($annonces_page);
-    }
+
+    $annonces_page = array(
+        'post_title' => "Afficher les annonces",
+        'post_name' => "afficher-annonces",
+        'post_content' => "[afficher_annonces]",
+        'post_type' => 'page',
+        'post_status' => 'publish',
+        'comment_status' => 'closed',
+        'ping_status' => 'closed',
+        'meta_input' => array('annonces' => 'liste')
+    );
+    wp_insert_post($annonces_page);
+
+
+}
 
 /**
 * Suppression des pages de l'extension
@@ -183,4 +234,5 @@ function annonces_deactivate() {
     annonces_delete_pages();
 }
 register_deactivation_hook(__FILE__, 'annonces_deactivate');
+
 
