@@ -44,9 +44,9 @@ function html_form_annonce() {
     </form>
 <?php
 
-$oCurrentUser = annonces_get_current_user_roles();
+$date = get_the_date();
 
-echo "<pre>".print_r($oCurrentUser, true)."</pre>";
+echo "<pre>".print_r($date, true)."</pre>";
 }
 
 /**
@@ -72,6 +72,7 @@ function insert_annonce() {
         // insertion dans la table
         global $wpdb;
         $oCurrentUser = annonces_get_current_user_roles();
+        $date = get_the_date();
 
         $wpdb->insert($wpdb->prefix.'annonces',
                 array(  'titre' => $titre, 
@@ -81,8 +82,9 @@ function insert_annonce() {
                         'annee_mec' => $annee_mec, 
                         'kilometrage' => $kilometrage,
                         'prix' => $prix,
-                        'auteur' => $oCurrentUser),
-                array('%s','%s','%s','%s','%d','%s','%s', '%s')
+                        'auteur' => $oCurrentUser,
+                        'date_creation' => $date),
+                array('%s','%s','%s','%s','%d','%s','%s', '%s', '%s')
         );
 
     ?> <p>Votre annonce a été ajoutée</p><?php
