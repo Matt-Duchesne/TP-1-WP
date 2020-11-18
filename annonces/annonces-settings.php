@@ -52,6 +52,7 @@ function annonces_sanitize_option( $input ) {
   $input['view_annee_mec']    = sanitize_text_field( $input['view_annee_mec'] );
   $input['view_kilometrage']    = sanitize_text_field( $input['view_kilometrage'] );
   $input['view_prix']    = sanitize_text_field( $input['view_prix'] );
+  $input['view_date']    = sanitize_text_field( $input['view_date'] );
   return $input;
 }
 
@@ -149,6 +150,19 @@ function annonces_settings_page() {
               <br>	   
               <input type="radio" name="annonces_settings[view_prix]" value="no"
                 <?php checked( isset( $annonces_settings['view_prix']) && $annonces_settings['view_prix'] === 'no' ) ?>>
+              non
+            </p>
+          </td>
+        </tr><tr>
+          <th scope="row">Date</th>
+          <td>
+            <p>
+              <input type="radio" name="annonces_settings[view_date]" value="yes"
+                <?php checked( !isset( $annonces_settings['view_date']) || $annonces_settings['view_date'] === 'yes' ) ?>>
+              oui
+              <br>	   
+              <input type="radio" name="annonces_settings[view_date]" value="no"
+                <?php checked( isset( $annonces_settings['view_date']) && $annonces_settings['view_date'] === 'no' ) ?>>
               non
             </p>
           </td>

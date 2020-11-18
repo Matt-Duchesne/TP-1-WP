@@ -42,7 +42,7 @@ function annonces_html_single_code() {
       <a href="<?php echo $single_permalink.'?page='.stripslashes($annonce->titre).'&id='.$annonce->id?>">Modifier cette annonce</a>
 
     <?php
-    
+
     endforeach;
 					
     endif;
@@ -83,6 +83,10 @@ function annonces_html_single_code() {
        <div style="display: flex">
          <p style="width:250px; padding: 5px; color: #777">prix:</p>
          <p style="padding: 5px"><?= $annonce->prix ?> $</p>
+       </div>       
+       <div style="display: flex">
+         <p style="width:250px; padding: 5px; color: #777">Date de creation:</p>
+         <p style="padding: 5px"><?= $annonce->date_creation ?></p>
        </div>
        
    <?php

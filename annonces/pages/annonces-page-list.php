@@ -117,6 +117,14 @@ function annonces_html_list_code() {
           <p style="width:250px; padding: 5px; color: #777">Prix:</p>
           <p style="padding: 5px"><?= $annonce->prix ?> crédits imperiaux</p>
         </div>
+        <?php
+      endif;
+      if (isset($settings['view_date']) && $settings['view_date'] === 'yes') :
+?>
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">Date de creation:</p>
+          <p style="padding: 5px"><?= stripslashes(nl2br($annonce->date_creation)) ?></p>
+        </div>
 <?php
       endif;
 ?>

@@ -48,7 +48,7 @@ function annonces_create_table() {
         `kilometrage` varchar(25) NOT NULL,
         `prix` varchar(25) NOT NULL,
         `auteur` varchar(50) NOT NULL,
-        `date_creation` date NOT NULL,
+        `date_creation` varchar(25) NOT NULL,
         PRIMARY KEY (`id`)
       ) ".$wpdb->get_charset_collate();
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -71,7 +71,8 @@ function annonces_default_settings() {
       'view_couleur'    => 'yes',
       'view_annee_mec'    => 'yes',
       'view_kilometrage'    => 'yes',
-      'view_prix'    => 'yes'
+      'view_prix'    => 'yes',
+      'view_date'    => 'yes'
     )	
   );
 }
