@@ -56,7 +56,7 @@ function annonces_create_table() {
     };
 
 /**
- * Initialisation de l'option annonces_settings,
+ * Inilialisation de l'option annonces_settings,
  * qui regroupe un tableau de réglages pour l'affichage des rubriques sur la page de liste
  *
  * @param none
@@ -111,18 +111,6 @@ function annonces_create_pages(){
     'post_title'     => "Annonce unique",
     'post_name'      => "annonce", 
     'post_content'   => "[annonces_single]",
-    'post_type'      => 'page',
-    'post_status'    => 'publish',
-    'comment_status' => 'closed',
-    'ping_status'    => 'closed',
-    'meta_input'     => array('annonces' => 'single')
-  );
-  wp_insert_post($annonces_page);
-
-  $annonces_page = array(
-    'post_title'     => "Modifier les détails d'une annonce",
-    'post_name'      => "annonce", 
-    'post_content'   => "[modif_annonce]",
     'post_type'      => 'page',
     'post_status'    => 'publish',
     'comment_status' => 'closed',
