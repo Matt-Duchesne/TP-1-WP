@@ -48,7 +48,7 @@ function annonces_create_table() {
         `kilometrage` varchar(25) NOT NULL,
         `prix` varchar(25) NOT NULL,
         `auteur` varchar(50) NOT NULL,
-        `date_creation` date NOT NULL,
+        `date_creation` varchar(20) NOT NULL,
         PRIMARY KEY (`id`)
       ) ".$wpdb->get_charset_collate();
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -126,8 +126,28 @@ function annonces_create_pages(){
     'post_type'      => 'page',
     'post_status'    => 'publish',
     'comment_status' => 'closed',
+<<<<<<< Updated upstream
     'ping_status'    => 'closed',
     'meta_input'     => array('annonces' => 'single')
   );
   wp_insert_post($annonces_page);
+=======
+    'ping_status' => 'closed',
+    'meta_input' => array('annonces' => 'modif')
+  );
+  wp_insert_post($annonces_page);
+
+  $annonces_page = array(
+    'post_title' => "Suppression d'une annonce",
+    'post_name' => "delete-annonce",
+    'post_content' => "[delete_annonce]",
+    'post_type' => 'page',
+    'post_status' => 'publish',
+    'comment_status' => 'closed',
+    'ping_status' => 'closed',
+    'meta_input' => array('annonces' => 'delete')
+  );
+  wp_insert_post($annonces_page);
+
+>>>>>>> Stashed changes
 }
