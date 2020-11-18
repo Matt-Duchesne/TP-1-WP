@@ -16,6 +16,36 @@ function annonces_html_single_code() {
     $postmeta = $wpdb->get_row("SELECT * FROM $wpdb->postmeta WHERE meta_key = 'annonces' AND meta_value = 'list'");
   ?>
    <?php	
+  /* Affichage d'un lien vers le formulaire de saisie d'une annonce pour l'administrateur du site
+     -------------------------------------------------------------------------------------------- */
+    ?>
+    <section style="margin: 0 auto; width: 80%; max-width: 100%; padding: 0">
+    <?php
+    global $wpdb;
+    if (current_user_can('administrator')) :
+      $postmeta = $wpdb->get_row(
+                    "SELECT * FROM $wpdb->postmeta WHERE meta_key = 'annonces' AND meta_value = 'modif'");
+    
+      $single_permalink = get_permalink($postmeta->post_id);
+
+      $annonce_search = '';
+
+      $sql  = "SELECT * FROM $wpdb->prefix"."annonces
+      WHERE titre LIKE '%s'
+       ORDER BY titre ASC";
+
+      $annonces = $wpdb->get_results($wpdb->prepare($sql, '%'.$annonce_search.'%'));
+
+      foreach ($annonces as $annonce) :
+
+      ?>
+      <a href="<?php echo $single_permalink.'?page='.stripslashes($annonce->titre).'&id='.$annonce->id?>">Modifier cette annonce</a>
+
+    <?php
+    
+    endforeach;
+					
+    endif;
 
   /* Affichage de une annonces 
      ---------------------------------- */
@@ -29,7 +59,8 @@ function annonces_html_single_code() {
        <div style="display: flex">
          <p style="width:250px; padding: 5px; color: #777">titre:</p>
          <p style="padding: 5px"><?= stripslashes(nl2br($annonce->titre)) ?></p>
-       </div><div style="display: flex">
+       </div>
+       <div style="display: flex">
          <p style="width:250px; padding: 5px; color: #777">marque:</p>
          <p style="padding: 5px"><?= stripslashes(nl2br($annonce->marque)) ?></p>
        </div>
@@ -53,6 +84,7 @@ function annonces_html_single_code() {
          <p style="width:250px; padding: 5px; color: #777">prix:</p>
          <p style="padding: 5px"><?= $annonce->prix ?> $</p>
        </div>
+       
    <?php
      else :
    ?>

@@ -21,6 +21,7 @@ require_once ("annonces-widgets.php");           // prise en compte des widgets
 require_once ("annonces-hooks-filters.php");     // prise en compte des crochets de filtres
 
 require_once ("pages/annonces-page-form.php");   // gestion formulaire de création d'une annonce 
+require_once ("pages/annonces-page-modif.php");  // gestion formulaire de modification d'une annonce 
 require_once ("pages/annonces-page-list.php");   // gestion page de liste des annonces
 require_once ("pages/annonces-page-single.php"); // gestion page détail d'une annonce
 

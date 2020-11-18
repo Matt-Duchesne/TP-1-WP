@@ -118,4 +118,16 @@ function annonces_create_pages(){
     'meta_input'     => array('annonces' => 'single')
   );
   wp_insert_post($annonces_page);
+
+  $annonces_page = array(
+    'post_title' => "Modification d'une annonce",
+    'post_name' => "modif-annonce",
+    'post_content' => "[modifier_annonce]",
+    'post_type' => 'page',
+    'post_status' => 'publish',
+    'comment_status' => 'closed',
+    'ping_status' => 'closed',
+    'meta_input' => array('annonces' => 'modif')
+);
+wp_insert_post($annonces_page);
 }
