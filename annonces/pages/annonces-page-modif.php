@@ -1,5 +1,6 @@
 <?php
 
+
 /**
 * Création du formulaire de modification d'une annonce
 *
@@ -33,9 +34,6 @@ global $wpdb;
             <input type="text" name="kilometrage" value=<?=$annonce->kilometrage?> required>
             <label>Prix</label>
             <input type="text" name="prix" value=<?=$annonce->prix?> required>
-
-            <input type="number" name="id" value=<?=$annonce->id?> required>
-
     
             <input type="submit" name="update" value="Mettre à jour">
             <?php wp_nonce_field( 'modifier_annonce', 'nonce_annonce' ); ?>
@@ -64,6 +62,7 @@ function update_annonce() {
     // si le bouton submit est cliqué
     if (isset( $_POST['update'] ) ) {
         if ( wp_verify_nonce($_POST['nonce_annonce'], 'modifier_annonce') ) {
+
          // assainir les valeurs du formulaire
         $titre = sanitize_text_field( $_POST["titre"] );
         $marque = sanitize_text_field( $_POST["marque"] );
@@ -72,17 +71,24 @@ function update_annonce() {
         $annee_mec = sanitize_text_field( $_POST["annee_mec"] );
         $kilometrage = sanitize_text_field( $_POST["kilometrage"] );
         $prix = sanitize_text_field( $_POST["prix"] );
+
         // Modification dans la table
         global $wpdb;
+        $oCurrentUser = annonces_get_current_user_roles();
         $annonce_id = isset($_GET['id']) ? $_GET['id'] : null;
         $sql = "SELECT * FROM $wpdb->prefix"."annonces WHERE id =%d";
 
         $wpdb->update($wpdb->prefix.'annonces',
-                array('titre' => $titre, 'marque' => $marque,
-                'modele' => $modele,'couleur' => $couleur,
-                'annee_mec' => $annee_mec, 'kilometrage' => $kilometrage, 'prix' => $prix),
+                array(  'titre' => $titre, 
+                        'marque' => $marque,
+                        'modele' => $modele,
+                        'couleur' => $couleur,
+                        'annee_mec' => $annee_mec, 
+                        'kilometrage' => $kilometrage, 
+                        'prix' => $prix,
+                        'auteur' => $oCurrentUser),
                 array('id' => $annonce_id), 
-                array('%s','%s','%s','%s','%d','%s','%s'),
+                array('%s','%s','%s','%s','%d','%s','%s','%s'),
                 array('%d')
         );
 

@@ -1,4 +1,18 @@
 <?php
+/**
+ * Pour retourner le role de l'utilisateur 
+ * si
+ * il y a une connexion 
+ */
+function annonces_get_current_user_roles() {
+    if( is_user_logged_in() ) {
+    $user = wp_get_current_user();
+    $roles = ( array ) $user->roles;
+    return $roles[0];
+    } else {
+    return array();
+    }
+   }
 
 /**
 * Création du formulaire de saisie d'une annonce
@@ -6,6 +20,7 @@
 * @param none
 * @return echo html form annonce code
 */
+
 function html_form_annonce() {
 ?>
     <form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) ?>" method="post">
@@ -28,6 +43,10 @@ function html_form_annonce() {
         <?php wp_nonce_field( 'ajouter_annonce', 'nonce_annonce' ); ?>
     </form>
 <?php
+
+$oCurrentUser = annonces_get_current_user_roles();
+
+echo "<pre>".print_r($oCurrentUser, true)."</pre>";
 }
 
 /**
@@ -49,13 +68,21 @@ function insert_annonce() {
         $annee_mec = sanitize_text_field( $_POST["annee_mec"] );
         $kilometrage = sanitize_text_field( $_POST["kilometrage"] );
         $prix = sanitize_text_field( $_POST["prix"] );
+
         // insertion dans la table
         global $wpdb;
+        $oCurrentUser = annonces_get_current_user_roles();
+
         $wpdb->insert($wpdb->prefix.'annonces',
-                array('titre' => $titre, 'marque' => $marque,
-                'modele' => $modele,'couleur' => $couleur,
-                'annee_mec' => $annee_mec, 'kilometrage' => $kilometrage, 'prix' => $prix),
-                array('%s','%s','%s','%s','%d','%s','%s')
+                array(  'titre' => $titre, 
+                        'marque' => $marque,
+                        'modele' => $modele,
+                        'couleur' => $couleur,
+                        'annee_mec' => $annee_mec, 
+                        'kilometrage' => $kilometrage,
+                        'prix' => $prix,
+                        'auteur' => $oCurrentUser),
+                array('%s','%s','%s','%s','%d','%s','%s', '%s')
         );
 
     ?> <p>Votre annonce a été ajoutée</p><?php
