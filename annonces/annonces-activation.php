@@ -56,7 +56,7 @@ function annonces_create_table() {
     };
 
 /**
- * Inilialisation de l'option annonces_settings,
+ * Initialisation de l'option annonces_settings,
  * qui regroupe un tableau de réglages pour l'affichage des rubriques sur la page de liste
  *
  * @param none
@@ -129,6 +129,18 @@ function annonces_create_pages(){
     'comment_status' => 'closed',
     'ping_status' => 'closed',
     'meta_input' => array('annonces' => 'modif')
+);
+wp_insert_post($annonces_page);
+
+$annonces_page = array(
+  'post_title' => "Suppression d'une annonce",
+  'post_name' => "delete-annonce",
+  'post_content' => "[delete_annonce]",
+  'post_type' => 'page',
+  'post_status' => 'publish',
+  'comment_status' => 'closed',
+  'ping_status' => 'closed',
+  'meta_input' => array('annonces' => 'delete')
 );
 wp_insert_post($annonces_page);
 }

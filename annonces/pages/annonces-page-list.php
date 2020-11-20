@@ -30,6 +30,7 @@ function annonces_html_list_code() {
     $annonce_search = trim($_POST['annonce-search']);
   endif;
 
+
   /* Affichage du formulaire de filtrage de annonces 
      ----------------------------------------------- */
 ?>
@@ -125,8 +126,10 @@ function annonces_html_list_code() {
           <p style="width:250px; padding: 5px; color: #777">Date de creation:</p>
           <p style="padding: 5px"><?= stripslashes(nl2br($annonce->date_creation)) ?></p>
         </div>
-<?php
+        <?php
       endif;
+
+
 ?>
       </div>
     </article>	

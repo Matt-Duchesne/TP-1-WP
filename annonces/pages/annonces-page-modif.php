@@ -113,5 +113,5 @@ function shortcode_modif_annonce() {
     return ob_get_clean(); // fin de la temporisation, retour du buffer au programme appelant
     }
     // créer un shortcode pour afficher et traiter le formulaire
-    add_shortcode( 'modifier_annonce', 'shortcode_modif_annonce' );
+    add_shortcode( 'modif_annonce', 'shortcode_modif_annonce' );
 

@@ -56,49 +56,52 @@ function annonces_html_single_code() {
      $annonce = $wpdb->get_row($wpdb->prepare($sql, $annonce_id));
      if ($annonce !== null) :
    ?>
-       <div style="display: flex">
-         <p style="width:250px; padding: 5px; color: #777">titre:</p>
-         <p style="padding: 5px"><?= stripslashes(nl2br($annonce->titre)) ?></p>
-       </div>
-       <div style="display: flex">
-         <p style="width:250px; padding: 5px; color: #777">marque:</p>
-         <p style="padding: 5px"><?= stripslashes(nl2br($annonce->marque)) ?></p>
-       </div>
-       <div style="display: flex">
-         <p style="width:250px; padding: 5px; color: #777">modele:</p>
-         <p style="padding: 5px"><?= stripslashes(nl2br($annonce->modele)) ?></p>
-       </div>       
-       <div style="display: flex">
-         <p style="width:250px; padding: 5px; color: #777">couleur:</p>
-         <p style="padding: 5px"><?= stripslashes(nl2br($annonce->couleur)) ?></p>
-       </div>
-       <div style="display: flex">
-         <p style="width:250px; padding: 5px; color: #777">année de mise en circulation:</p>
-         <p style="padding: 5px"><?= $annonce->annee_mec ?> </p>
-       </div>
-       <div style="display: flex">
-         <p style="width:250px; padding: 5px; color: #777">kilometrage:</p>
-         <p style="padding: 5px"><?= $annonce->kilometrage ?> km</p>
-       </div>       
-       <div style="display: flex">
-         <p style="width:250px; padding: 5px; color: #777">prix:</p>
-         <p style="padding: 5px"><?= $annonce->prix ?> $</p>
-       </div>       
-       <div style="display: flex">
-         <p style="width:250px; padding: 5px; color: #777">Date de creation:</p>
-         <p style="padding: 5px"><?= $annonce->date_creation ?></p>
-       </div>
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">titre:</p>
+          <p style="padding: 5px"><?= stripslashes(nl2br($annonce->titre)) ?></p>
+        </div>
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">marque:</p>
+          <p style="padding: 5px"><?= stripslashes(nl2br($annonce->marque)) ?></p>
+        </div>
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">modele:</p>
+          <p style="padding: 5px"><?= stripslashes(nl2br($annonce->modele)) ?></p>
+        </div>       
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">couleur:</p>
+          <p style="padding: 5px"><?= stripslashes(nl2br($annonce->couleur)) ?></p>
+        </div>
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">année de mise en circulation:</p>
+          <p style="padding: 5px"><?= $annonce->annee_mec ?> </p>
+        </div>
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">kilometrage:</p>
+          <p style="padding: 5px"><?= $annonce->kilometrage ?> km</p>
+        </div>       
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">prix:</p>
+          <p style="padding: 5px"><?= $annonce->prix ?> $</p>
+        </div>       
+        <div style="display: flex">
+          <p style="width:250px; padding: 5px; color: #777">Date de creation:</p>
+          <p style="padding: 5px"><?= $annonce->date_creation ?></p>
+        </div>
        
-   <?php
-     else :
-   ?>
-       <p>Cette annonce n'est pas enregistrée.</p>
-   <?php
-     endif;
+
+    <?php
+      
+      else :
+    ?>
+        <p>Cette annonce n'est pas enregistrée.</p>
+    <?php
+      endif;
      ?>
-     </section>
-   <?php
-   }
+      </section>
+    <?php
+
+}
 
 /**
  * Exécution du code court (shortcode) d'affichage d'une annonce
