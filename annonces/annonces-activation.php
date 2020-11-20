@@ -123,7 +123,7 @@ function annonces_create_pages(){
   $annonces_page = array(
     'post_title' => "Modification d'une annonce",
     'post_name' => "modif-annonce",
-    'post_content' => "[modifier_annonce]",
+    'post_content' => "[modif_annonce]",
     'post_type' => 'page',
     'post_status' => 'publish',
     'comment_status' => 'closed',

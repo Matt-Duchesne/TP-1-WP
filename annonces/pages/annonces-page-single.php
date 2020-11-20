@@ -16,7 +16,7 @@ function annonces_html_single_code() {
     $postmeta = $wpdb->get_row("SELECT * FROM $wpdb->postmeta WHERE meta_key = 'annonces' AND meta_value = 'list'");
   ?>
    <?php	
-  /* Affichage d'un lien vers le formulaire de saisie d'une annonce pour l'administrateur du site
+  /* Affichage d'un lien vers le formulaire de modification d'une annonce pour l'administrateur du site
      -------------------------------------------------------------------------------------------- */
     ?>
     <section style="margin: 0 auto; width: 80%; max-width: 100%; padding: 0">
@@ -46,6 +46,37 @@ function annonces_html_single_code() {
     endforeach;
 					
     endif;
+
+    /* Affichage d'un lien vers le formulaire d'effaçage d'une annonce pour l'administrateur du site
+     -------------------------------------------------------------------------------------------- */
+     ?>
+     <section style="margin: 0 auto; width: 80%; max-width: 100%; padding: 0">
+     <?php
+     global $wpdb;
+     if (current_user_can('administrator')) :
+       $postmeta = $wpdb->get_row(
+                     "SELECT * FROM $wpdb->postmeta WHERE meta_key = 'annonces' AND meta_value = 'delete'");
+     
+       $single_permalink = get_permalink($postmeta->post_id);
+ 
+       $annonce_search = '';
+ 
+       $sql  = "SELECT * FROM $wpdb->prefix"."annonces
+       WHERE titre LIKE '%s'
+        ORDER BY titre ASC";
+ 
+       $annonces = $wpdb->get_results($wpdb->prepare($sql, '%'.$annonce_search.'%'));
+ 
+       foreach ($annonces as $annonce) :
+ 
+       ?>
+       <a href="<?php echo $single_permalink.'?page='.stripslashes($annonce->titre).'&id='.$annonce->id?>">Supprimer cette annonce</a>
+ 
+     <?php
+ 
+     endforeach;
+           
+     endif;
 
   /* Affichage de une annonces 
      ---------------------------------- */

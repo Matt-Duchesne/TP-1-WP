@@ -35,7 +35,6 @@ global $wpdb;
             <label>Prix</label>
             <input type="text" name="prix" value=<?=$annonce->prix?> readonly>
 
-            <input type="number" name="id" value=<?=$annonce->id?> readonly>
             <label>Voulez-vous supprimer cette annonce?</label>
             <input type="submit" name="delete" value="Supprimer?">
             <?php wp_nonce_field( 'delete_annonce', 'nonce_annonce' ); ?>
@@ -54,29 +53,28 @@ global $wpdb;
 }
 
 /**
- * Modification d'une annonce dans la table
+ * Suppression d'une annonce dans la table
  *
  * @param none
  * @return none
  */
 
 // si le bouton supprimer est cliqué
-if (isset( $_POST['delete'])) 
-{
+
     function delete_annonce() {
+        if (isset( $_POST['delete'])){
+            if ( wp_verify_nonce($_POST['nonce_annonce'], 'delete_annonce')) {
+            // Suppression de l'entrée
+                global $wpdb;
+                $annonce_id = isset($_GET['id']) ? $_GET['id'] : null;
+                $sql = "DELETE * FROM $wpdb->prefix"."annonces WHERE id =%d";   
+                $wpdb->delete('wp_annonces', array('id' => $annonce_id ))
 
-        if ( wp_verify_nonce($_POST['nonce_annonce'], 'delete_annonce')) {
-        // Suppression de l'entrée
-        global $wpdb;
-        $annonce_id = isset($_GET['id']) ? $_GET['id'] : null;
-        $sql = "DELETE * FROM $wpdb->prefix"."annonces WHERE id =%d";   
-        $wpdb->delete('w_annonces', array('id' => $annonce_id ))
-
-    ?> <p>Votre annonce a été supprimée</p><?php
-    } else {
-    ?> <p>Votre annonce n'a pas été supprimée</p><?php
-        }
-    }
+            ?> <p>Votre annonce a été supprimée</p><?php
+            } else {
+            ?> <p>Votre annonce n'a pas été supprimée</p><?php
+                }
+            }
 }
 
 /**
