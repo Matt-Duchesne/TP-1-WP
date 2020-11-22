@@ -44,9 +44,9 @@ function annonces_create_table() {
         `marque` varchar(25) NOT NULL,
         `modele` varchar(25) NOT NULL,
         `couleur` varchar(25) NOT NULL,
-        `annee_mec` smallint NOT NULL,
-        `kilometrage` varchar(25) NOT NULL,
-        `prix` varchar(25) NOT NULL,
+        `annee_mec` smallint(10) NOT NULL,
+        `kilometrage` smallint(10) NOT NULL,
+        `prix` smallint(10) NOT NULL,
         `auteur` varchar(50) NOT NULL,
         `date_creation` varchar(25) NOT NULL,
         PRIMARY KEY (`id`)
@@ -144,3 +144,4 @@ $annonces_page = array(
 );
 wp_insert_post($annonces_page);
 }
+

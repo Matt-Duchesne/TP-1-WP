@@ -10,8 +10,7 @@
  * @return echo html single annonces code
  */
 function annonces_html_single_code() {
-
-
+    $current_user = wp_get_current_user();
     global $wpdb;
     $postmeta = $wpdb->get_row("SELECT * FROM $wpdb->postmeta WHERE meta_key = 'annonces' AND meta_value = 'list'");
   ?>
@@ -36,47 +35,51 @@ function annonces_html_single_code() {
 
       $annonces = $wpdb->get_results($wpdb->prepare($sql, '%'.$annonce_search.'%'));
 
-      foreach ($annonces as $annonce) :
-
-      ?>
-      <a href="<?php echo $single_permalink.'?page='.stripslashes($annonce->titre).'&id='.$annonce->id?>">Modifier cette annonce</a>
-
-    <?php
-
-    endforeach;
-					
+      foreach($annonces as $annonce) :
+        if($annonce->id == $_GET['id']) :
+          ?>
+            <a href="<?php echo $single_permalink.'?page='.stripslashes($annonce->titre).'&id='.$annonce->id?>">Modifier cette annonce</a>
+          <?php
+        endif;
+      endforeach;
     endif;
 
     /* Affichage d'un lien vers le formulaire d'effaçage d'une annonce pour l'administrateur du site
      -------------------------------------------------------------------------------------------- */
-     ?>
-     <section style="margin: 0 auto; width: 80%; max-width: 100%; padding: 0">
-     <?php
-     global $wpdb;
-     if (current_user_can('administrator')) :
-       $postmeta = $wpdb->get_row(
-                     "SELECT * FROM $wpdb->postmeta WHERE meta_key = 'annonces' AND meta_value = 'delete'");
-     
-       $single_permalink = get_permalink($postmeta->post_id);
- 
-       $annonce_search = '';
- 
-       $sql  = "SELECT * FROM $wpdb->prefix"."annonces
-       WHERE titre LIKE '%s'
+    ?>
+    
+      <?php
+      global $wpdb;
+      if (current_user_can('administrator') || current_user_can('author')) :
+        $postmeta = $wpdb->get_row(
+                      "SELECT * FROM $wpdb->postmeta WHERE meta_key = 'annonces' AND meta_value = 'delete'");
+      
+        $single_permalink = get_permalink($postmeta->post_id);
+  
+        $annonce_search = '';
+        $nom_auteur = '';
+  
+        $sql  = "SELECT * FROM $wpdb->prefix"."annonces
+        WHERE titre LIKE '%s'
         ORDER BY titre ASC";
- 
-       $annonces = $wpdb->get_results($wpdb->prepare($sql, '%'.$annonce_search.'%'));
- 
-       foreach ($annonces as $annonce) :
- 
-       ?>
-       <a href="<?php echo $single_permalink.'?page='.stripslashes($annonce->titre).'&id='.$annonce->id?>">Supprimer cette annonce</a>
- 
-     <?php
- 
-     endforeach;
-           
-     endif;
+        $annonces = $wpdb->get_results($wpdb->prepare($sql, '%'.$annonce_search.'%'));
+
+        //$sql2  = "SELECT auteur FROM $wpdb->prefix"."annonces
+        //WHERE id =" . $_GET['id'];
+        //$auteur = $wpdb->get_results($wpdb->prepare($sql2, '%'.$nom_auteur.'%'));
+        
+
+          foreach($annonces as $annonce) :
+            if($annonce->id == $_GET['id']) :
+            ?>
+              <a href="<?php echo $single_permalink.'?page='.stripslashes($annonce->titre).'&id='.$annonce->id?>">Supprimer cette annonce</a>    
+            <?php
+            endif;
+          endforeach;
+
+         
+
+      endif;
 
   /* Affichage de une annonces 
      ---------------------------------- */
@@ -86,6 +89,8 @@ function annonces_html_single_code() {
      
      $annonce = $wpdb->get_row($wpdb->prepare($sql, $annonce_id));
      if ($annonce !== null) :
+
+     
    ?>
         <div style="display: flex">
           <p style="width:250px; padding: 5px; color: #777">titre:</p>
@@ -120,10 +125,10 @@ function annonces_html_single_code() {
           <p style="padding: 5px"><?= $annonce->date_creation ?></p>
         </div>
        
+        
 
     <?php
-      
-      else :
+      else:
     ?>
         <p>Cette annonce n'est pas enregistrée.</p>
     <?php

@@ -68,7 +68,7 @@ global $wpdb;
                 global $wpdb;
                 $annonce_id = isset($_GET['id']) ? $_GET['id'] : null;
                 $sql = "DELETE * FROM $wpdb->prefix"."annonces WHERE id =%d";   
-                $wpdb->delete('wp_annonces', array('id' => $annonce_id ))
+                $wpdb->delete('wp_annonces', array('id' => $annonce_id), array('%d'));
 
             ?> <p>Votre annonce a été supprimée</p><?php
             } else {

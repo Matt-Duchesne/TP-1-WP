@@ -122,6 +122,7 @@ function annonces_html_list_code() {
       endif;
       if (isset($settings['view_date']) && $settings['view_date'] === 'yes') :
 ?>
+
         <div style="display: flex">
           <p style="width:250px; padding: 5px; color: #777">Date de creation:</p>
           <p style="padding: 5px"><?= stripslashes(nl2br($annonce->date_creation)) ?></p>
@@ -131,6 +132,9 @@ function annonces_html_list_code() {
 
 
 ?>
+        <p style="margin: 0 auto; width: 100%; max-width: 100%; padding: 0; font-size: 11px">
+          Cette annonce a été publiée par <?=$annonce->auteur?>. Date de publication: <?=$annonce->date_creation?>
+        </p>
       </div>
     </article>	
 <?php

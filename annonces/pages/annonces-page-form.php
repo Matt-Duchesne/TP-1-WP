@@ -6,13 +6,27 @@
  */
 function annonces_get_current_user_roles() {
     if( is_user_logged_in() ) {
-    $user = wp_get_current_user();
-    $roles = ( array ) $user->roles;
-    return $roles[0];
-    } else {
+        $user = wp_get_current_user();
+        $roles = ( array ) $user->roles;
+        return $roles[0];
+    } 
+    else 
+    {
     return array();
     }
-   }
+}
+
+function annonces_get_current_username() {
+    if( is_user_logged_in() ) {
+        $user = wp_get_current_user();
+        $names = ( array ) $user->display_name;
+        return $names[0];
+    } 
+    else 
+    {
+    return array();
+    }
+}
 
 /**
 * Création du formulaire de saisie d'une annonce
@@ -33,7 +47,7 @@ function html_form_annonce() {
         <label>Couleur</label>
         <input type="text" name="couleur" placeholder="Entrez la couleur" required>
         <label>Annee de mise en circulation</label>
-        <input type="number" name="annee_mec" placeholder="Entrez l'annee de mise en circulation" required>
+        <input type="text" name="annee_mec" placeholder="Entrez l'annee de mise en circulation" required>
         <label>Kilometrage</label>
         <input type="text" name="kilometrage" placeholder="Entrez le kilometrage" required>
         <label>Prix</label>
@@ -65,15 +79,17 @@ function insert_annonce() {
         $marque = sanitize_text_field( $_POST["marque"] );
         $modele = sanitize_text_field( $_POST["modele"] );
         $couleur = sanitize_text_field( $_POST["couleur"] );
-        $annee_mec = sanitize_text_field( $_POST["annee_mec"] );
-        $kilometrage = sanitize_text_field( $_POST["kilometrage"] );
-        $prix = sanitize_text_field( $_POST["prix"] );
+        $annee_mec = filter_var($_POST['annee_mec'], FILTER_SANITIZE_NUMBER_INT);
+        $kilometrage = filter_var($_POST['kilometrage'], FILTER_SANITIZE_NUMBER_INT);
+        $prix = filter_var($_POST['prix'], FILTER_SANITIZE_NUMBER_INT);
 
         // insertion dans la table
         global $wpdb;
         $oCurrentUser = annonces_get_current_user_roles();
+        $oCurrentUserName = annonces_get_current_username();
         $date = get_the_date();
 
+        // filter_var($_POST['annee_mec'], FILTER_SANITIZE_NUMBER_INT);
         $wpdb->insert($wpdb->prefix.'annonces',
                 array(  'titre' => $titre, 
                         'marque' => $marque,
@@ -82,9 +98,9 @@ function insert_annonce() {
                         'annee_mec' => $annee_mec, 
                         'kilometrage' => $kilometrage,
                         'prix' => $prix,
-                        'auteur' => $oCurrentUser,
+                        'auteur' => $oCurrentUserName,
                         'date_creation' => $date),
-                array('%s','%s','%s','%s','%d','%s','%s', '%s', '%s')
+                array('%s','%s','%s','%s','%d','%d','%d','%s','%s')
         );
 
     ?> <p>Votre annonce a été ajoutée</p><?php

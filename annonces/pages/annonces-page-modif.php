@@ -7,6 +7,8 @@
 * @param none
 * @return echo html form annonce code
 */
+
+
 function annonces_html_modif_code() {
 
 global $wpdb;
